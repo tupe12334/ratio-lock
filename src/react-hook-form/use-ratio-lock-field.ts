@@ -24,7 +24,8 @@ export function useRatioLockField<T extends FieldValues>(
 ): UseRatioLockFieldReturn {
   const { control, setValue: setFormValue, names, precision } = options
 
-  const watchedValues = useWatch({ control, name: names })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const watchedValues = useWatch({ control, name: names as any })
 
   const [ratioLock] = useState(() => {
     const initialValues = watchedValues.map(toNumber)
@@ -64,7 +65,7 @@ export function useRatioLockField<T extends FieldValues>(
         const value = newValues[i]
         if (name !== undefined && value !== undefined) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          setFormValue(name, value as any)
+          setFormValue(name as any, value as any)
         }
       }
     },
