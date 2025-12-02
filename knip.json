@@ -6,7 +6,13 @@
     "src/react-hook-form/index.ts"
   ],
   "project": ["src/**/*.ts"],
-  "ignore": ["**/*.spec.ts", "**/*.test.ts", "dist/**", "coverage/**"],
+  "ignore": [
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "dist/**",
+    "coverage/**",
+    "docs/**"
+  ],
   "ignoreDependencies": ["react", "react-hook-form"],
   "ignoreExportsUsedInFile": true,
   "ignoreWorkspaces": []

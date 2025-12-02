@@ -9,7 +9,10 @@
     "eslint",
     "tsconfig",
     "esbenp",
-    "commitlint"
+    "commitlint",
+    "vitejs",
+    "noopener",
+    "noreferrer"
   ],
   "languageSettings": [
     {
@@ -22,6 +25,8 @@
     "dist",
     "coverage",
     "pnpm-lock.yaml",
-    "*.min.js"
+    "*.min.js",
+    "docs/node_modules",
+    "docs/dist"
   ]
 }
