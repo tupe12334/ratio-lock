@@ -92,7 +92,7 @@ export class RatioLock {
   }
 
   /**
-   * Set all values (recalculates ratio if locked)
+   * Set all values (recalculates ratio if locked, unless all values are zero)
    * @param values - New values
    */
   setValues(values: number[]): void {
@@ -104,7 +104,11 @@ export class RatioLock {
 
     this._values = [...values]
     if (this._locked) {
-      this._ratios = this.calculateRatios(values)
+      // Don't recalculate ratios if all values are zero - preserve existing ratios
+      const allZero = values.every(v => v === 0)
+      if (!allZero) {
+        this._ratios = this.calculateRatios(values)
+      }
     }
   }
 

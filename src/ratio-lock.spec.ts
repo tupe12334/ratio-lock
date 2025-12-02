@@ -114,6 +114,30 @@ describe('RatioLock', () => {
       ratioLock.setValues([100, 300])
       expect(ratioLock.getRatios()).toEqual([1, 3])
     })
+
+    it('should preserve ratios when all values are set to zero while locked', () => {
+      const ratioLock = new RatioLock([100, 200, 300], { locked: true })
+      expect(ratioLock.getRatios()).toEqual([1, 2, 3])
+
+      // Set all values to zero - ratios should be preserved
+      ratioLock.setValues([0, 0, 0])
+      expect(ratioLock.getValues()).toEqual([0, 0, 0])
+      expect(ratioLock.getRatios()).toEqual([1, 2, 3])
+    })
+
+    it('should restore correct proportions after setting to zero and back when locked', () => {
+      const ratioLock = new RatioLock([100, 200, 300], { locked: true })
+      expect(ratioLock.getRatios()).toEqual([1, 2, 3])
+
+      // Simulate what happens in react-hook-form: setValue then setValues
+      ratioLock.setValue(0, 0) // This sets all to [0, 0, 0]
+      ratioLock.setValues([0, 0, 0]) // This is called by useEffect, should preserve ratios
+
+      // Now set back to a non-zero value
+      ratioLock.setValue(0, 100)
+      expect(ratioLock.getValues()).toEqual([100, 200, 300])
+      expect(ratioLock.getRatios()).toEqual([1, 2, 3])
+    })
   })
 
   describe('getRatios', () => {
