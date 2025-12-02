@@ -21,5 +21,7 @@ export default defineConfig({
         replacement: resolve(__dirname, '../src/index.ts'),
       },
     ],
+    // Ensure single instances of React and react-hook-form
+    dedupe: ['react', 'react-dom', 'react-hook-form'],
   },
 })
