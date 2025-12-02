@@ -1,4 +1,4 @@
-import { useForm, FormProvider } from 'react-hook-form'
+import { useForm, FormProvider, useFormContext } from 'react-hook-form'
 import { useRatioLockField } from 'ratio-lock/react-hook-form'
 
 interface FormData {
@@ -7,7 +7,7 @@ interface FormData {
 }
 
 function RatioLockedFields() {
-  const { control } = useForm<FormData>()
+  const { control } = useFormContext<FormData>()
   const { fields, isLocked, toggle } = useRatioLockField<FormData>({
     control,
     names: ['width', 'height'],
