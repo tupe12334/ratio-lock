@@ -7,21 +7,20 @@ export default defineConfig({
   base: '/ratio-lock/',
   resolve: {
     alias: [
-      // More specific paths must come first
+      // Use built dist files to avoid module resolution issues
       {
         find: 'ratio-lock/react-hook-form',
-        replacement: resolve(__dirname, '../src/react-hook-form/index.ts'),
+        replacement: resolve(__dirname, '../dist/react-hook-form/index.js'),
       },
       {
         find: 'ratio-lock/react',
-        replacement: resolve(__dirname, '../src/react/index.ts'),
+        replacement: resolve(__dirname, '../dist/react/index.js'),
       },
       {
         find: 'ratio-lock',
-        replacement: resolve(__dirname, '../src/index.ts'),
+        replacement: resolve(__dirname, '../dist/index.js'),
       },
     ],
-    // Ensure single instances of React and react-hook-form
     dedupe: ['react', 'react-dom', 'react-hook-form'],
   },
 })
