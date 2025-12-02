@@ -1,0 +1,98 @@
+{
+  "name": "ratio-lock",
+  "version": "0.1.0",
+  "description": "A TypeScript library for managing n numbers with locked ratios. When the ratio is locked, changing one value automatically adjusts all other values to maintain their proportional relationships.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js"
+    },
+    "./react-hook-form": {
+      "types": "./dist/react-hook-form/index.d.ts",
+      "import": "./dist/react-hook-form/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "spell": "cspell lint '**/*.{ts,tsx,js,md,json}' --gitignore",
+    "spell:check": "cspell lint '**/*.{ts,tsx,js,md,json}' --gitignore",
+    "knip": "knip",
+    "prepare": "husky",
+    "release": "release-it"
+  },
+  "keywords": [
+    "ratio",
+    "lock",
+    "proportional",
+    "aspect-ratio",
+    "react",
+    "react-hook-form",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "pnpm@10.24.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-hook-form": ">=7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tupe12334/ratio-lock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tupe12334/ratio-lock/issues"
+  },
+  "homepage": "https://github.com/tupe12334/ratio-lock#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@types/react": "^19.2.7",
+    "@vitest/coverage-v8": "^4.0.14",
+    "cspell": "^9.4.0",
+    "eslint": "^9.39.1",
+    "eslint-config-agent": "^1.8.9",
+    "eslint-config-publishable-package-json": "^1.0.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "husky": "^9.1.7",
+    "knip": "^5.71.0",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.3",
+    "react-hook-form": "^7.67.0",
+    "release-it": "^19.0.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  }
+}

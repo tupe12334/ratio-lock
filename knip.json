@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": [
+    "src/index.ts",
+    "src/react/index.ts",
+    "src/react-hook-form/index.ts"
+  ],
+  "project": ["src/**/*.ts"],
+  "ignore": ["**/*.spec.ts", "**/*.test.ts", "dist/**", "coverage/**"],
+  "ignoreDependencies": ["react", "react-hook-form"],
+  "ignoreExportsUsedInFile": true,
+  "ignoreWorkspaces": []
+}
