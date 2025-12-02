@@ -1,4 +1,4 @@
-import { useForm, FormProvider, useFormContext } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useRatioLockField } from 'ratio-lock/react-hook-form'
 
 interface FormData {
@@ -6,56 +6,22 @@ interface FormData {
   height: number
 }
 
-function RatioLockedFields() {
-  const { control } = useFormContext<FormData>()
-  const { fields, isLocked, toggle } = useRatioLockField<FormData>({
-    control,
-    names: ['width', 'height'],
-    precision: 0,
-  })
-
-  return (
-    <>
-      <div className="input-group">
-        <div className="input-field">
-          <label htmlFor="rhf-width">Width (px)</label>
-          <input type="number" id="rhf-width" min={1} {...fields.width} />
-        </div>
-        <div className="input-field">
-          <label htmlFor="rhf-height">Height (px)</label>
-          <input type="number" id="rhf-height" min={1} {...fields.height} />
-        </div>
-        <button
-          type="button"
-          className={`lock-button ${isLocked ? 'locked' : ''}`}
-          onClick={toggle}
-        >
-          <span className="lock-icon">{isLocked ? '🔒' : '🔓'}</span>
-          {isLocked ? ' Locked' : ' Unlocked'}
-        </button>
-      </div>
-      <p
-        style={{
-          marginTop: '0.5rem',
-          color: 'var(--text-muted)',
-          fontSize: '0.9rem',
-        }}
-      >
-        Form values: width={fields.width?.value}, height={fields.height?.value}
-      </p>
-    </>
-  )
-}
-
 export function ReactHookFormExample() {
-  const methods = useForm<FormData>({
+  const { control, setValue } = useForm<FormData>({
     defaultValues: {
       width: 1920,
       height: 1080,
     },
   })
 
-  const codeExample = `import { useForm, FormProvider } from 'react-hook-form'
+  const { fields, isLocked, toggle } = useRatioLockField<FormData>({
+    control,
+    setValue,
+    names: ['width', 'height'],
+    precision: 0,
+  })
+
+  const codeExample = `import { useForm } from 'react-hook-form'
 import { useRatioLockField } from 'ratio-lock/react-hook-form'
 
 interface FormData {
@@ -64,27 +30,26 @@ interface FormData {
 }
 
 function ImageForm() {
-  const methods = useForm<FormData>({
+  const { control, setValue, handleSubmit } = useForm<FormData>({
     defaultValues: { width: 1920, height: 1080 },
   })
 
   const { fields, isLocked, toggle } = useRatioLockField<FormData>({
-    control: methods.control,
+    control,
+    setValue,
     names: ['width', 'height'],
     precision: 0,
   })
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <input type="number" {...fields.width} />
-        <input type="number" {...fields.height} />
-        <button type="button" onClick={toggle}>
-          {isLocked ? 'Unlock' : 'Lock'}
-        </button>
-        <button type="submit">Submit</button>
-      </form>
-    </FormProvider>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input type="number" {...fields.width} />
+      <input type="number" {...fields.height} />
+      <button type="button" onClick={toggle}>
+        {isLocked ? 'Unlock' : 'Lock'}
+      </button>
+      <button type="submit">Submit</button>
+    </form>
   )
 }`
 
@@ -98,11 +63,36 @@ function ImageForm() {
 
       <div className="demo-section">
         <h3>Image Dimensions Calculator</h3>
-        <FormProvider {...methods}>
-          <form>
-            <RatioLockedFields />
-          </form>
-        </FormProvider>
+        <form>
+          <div className="input-group">
+            <div className="input-field">
+              <label htmlFor="rhf-width">Width (px)</label>
+              <input type="number" id="rhf-width" min={1} {...fields.width} />
+            </div>
+            <div className="input-field">
+              <label htmlFor="rhf-height">Height (px)</label>
+              <input type="number" id="rhf-height" min={1} {...fields.height} />
+            </div>
+            <button
+              type="button"
+              className={`lock-button ${isLocked ? 'locked' : ''}`}
+              onClick={toggle}
+            >
+              <span className="lock-icon">{isLocked ? '🔒' : '🔓'}</span>
+              {isLocked ? ' Locked' : ' Unlocked'}
+            </button>
+          </div>
+          <p
+            style={{
+              marginTop: '0.5rem',
+              color: 'var(--text-muted)',
+              fontSize: '0.9rem',
+            }}
+          >
+            Form values: width={fields.width?.value}, height=
+            {fields.height?.value}
+          </p>
+        </form>
       </div>
 
       <div className="code-section">

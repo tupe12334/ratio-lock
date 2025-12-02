@@ -1,7 +1,7 @@
 import type { ChangeEvent } from 'react'
 import { useCallback, useState, useMemo, useEffect } from 'react'
 import type { FieldValues, Path } from 'react-hook-form'
-import { useWatch, useFormContext } from 'react-hook-form'
+import { useWatch } from 'react-hook-form'
 import { RatioLock } from '../ratio-lock.js'
 import type { UseRatioLockFieldOptions } from './use-ratio-lock-field-options.js'
 import type { UseRatioLockFieldReturn } from './use-ratio-lock-field-return.js'
@@ -16,14 +16,13 @@ function toNumber(value: unknown): number {
 
 /**
  * React Hook Form integration for ratio-locked fields
- * @param options - Configuration options including control and field names
+ * @param options - Configuration options including control, setValue, and field names
  * @returns Object with field props and lock controls
  */
 export function useRatioLockField<T extends FieldValues>(
   options: UseRatioLockFieldOptions<T>
 ): UseRatioLockFieldReturn {
-  const { control, names, precision } = options
-  const { setValue: setFormValue } = useFormContext<T>()
+  const { control, setValue: setFormValue, names, precision } = options
 
   const watchedValues = useWatch({ control, name: names })
 
