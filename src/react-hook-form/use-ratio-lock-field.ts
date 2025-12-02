@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react'
 import { useCallback, useState, useMemo, useEffect } from 'react'
-import type { FieldValues, Path } from 'react-hook-form'
+import type { FieldValues } from 'react-hook-form'
 import { useWatch } from 'react-hook-form'
 import { RatioLock } from '../ratio-lock.js'
 import type { UseRatioLockFieldOptions } from './use-ratio-lock-field-options.js'
@@ -63,7 +63,8 @@ export function useRatioLockField<T extends FieldValues>(
         const name = names[i]
         const value = newValues[i]
         if (name !== undefined && value !== undefined) {
-          setFormValue(name, value as T[Path<T>])
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          setFormValue(name, value as any)
         }
       }
     },
