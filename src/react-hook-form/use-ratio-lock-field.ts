@@ -2,16 +2,23 @@ import type { ChangeEvent } from 'react'
 import { useCallback, useState, useMemo, useEffect } from 'react'
 import type { FieldValues } from 'react-hook-form'
 import { useWatch } from 'react-hook-form'
+import { z } from 'zod'
 import { RatioLock } from '../ratio-lock.js'
+import { RatioLockError } from '../ratio-lock-error.js'
 import type { UseRatioLockFieldOptions } from './use-ratio-lock-field-options.js'
 import type { UseRatioLockFieldReturn } from './use-ratio-lock-field-return.js'
 import type { FieldProps } from './field-props.js'
 
-function toNumber(value: unknown): number {
-  if (typeof value === 'number') {
-    return value
+const numberSchema = z.coerce.number()
+
+function parseNumber(value: unknown, fieldName: string): number {
+  const result = numberSchema.safeParse(value)
+  if (result.success) {
+    return result.data
   }
-  return 0
+  throw new RatioLockError(
+    `Expected a number for field "${fieldName}", got ${typeof value}: ${JSON.stringify(value)}`
+  )
 }
 
 /**
@@ -24,20 +31,19 @@ export function useRatioLockField<T extends FieldValues>(
 ): UseRatioLockFieldReturn {
   const { control, setValue: setFormValue, names, precision } = options
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const watchedValues = useWatch({ control, name: names as any })
+  const watchedValues = useWatch({ control, name: names })
 
   const [ratioLock] = useState(() => {
-    const initialValues = watchedValues.map(toNumber)
+    const initialValues = watchedValues.map((v, i) => parseNumber(v, names[i]))
     return new RatioLock(initialValues, { precision })
   })
 
   const [isLocked, setIsLocked] = useState(false)
 
   useEffect(() => {
-    const values = watchedValues.map(toNumber)
+    const values = watchedValues.map((v, i) => parseNumber(v, names[i]))
     ratioLock.setValues(values)
-  }, [watchedValues, ratioLock])
+  }, [watchedValues, ratioLock, names])
 
   const lock = useCallback(() => {
     ratioLock.lock()
@@ -65,7 +71,7 @@ export function useRatioLockField<T extends FieldValues>(
         const value = newValues[i]
         if (name !== undefined && value !== undefined) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          setFormValue(name as any, value as any)
+          setFormValue(name, value as any)
         }
       }
     },
@@ -78,10 +84,9 @@ export function useRatioLockField<T extends FieldValues>(
       const name = names[i]
       const watchedValue = watchedValues[i]
       if (name !== undefined) {
-        const stringName = String(name)
-        result[stringName] = {
-          name: stringName,
-          value: toNumber(watchedValue),
+        result[name] = {
+          name,
+          value: parseNumber(watchedValue, name),
           onChange: createOnChange(i),
         }
       }
