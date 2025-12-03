@@ -1,6 +1,6 @@
 {
   "name": "ratio-lock",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A TypeScript library for managing n numbers with locked ratios. When the ratio is locked, changing one value automatically adjusts all other values to maintain their proportional relationships.",
   "type": "module",
   "main": "./dist/index.js",
