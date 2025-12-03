@@ -15,12 +15,17 @@ export function TestSimpleForm() {
   const { control, setValue } = useForm<SimpleForm>({
     defaultValues: { width: 100, height: 100 },
   })
-  const { fields, isLocked, toggle, lock, unlock } = useRatioLockField({
+  const { fields } = useRatioLockField({
     control,
     setValue,
     names: ['width', 'height'],
   })
-  return { fields, isLocked, toggle, lock, unlock }
+
+  // Type test: fields.width.name should be 'width', not string
+  const widthName: 'width' = fields.width.name
+  const heightName: 'height' = fields.height.name
+
+  return { widthName, heightName }
 }
 
 interface NestedForm {

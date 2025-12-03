@@ -2,10 +2,11 @@ import type { FieldProps } from './field-props.js'
 
 /**
  * Return type for useRatioLockField hook
+ * @typeParam TNames - Union of field name literals
  */
-export interface UseRatioLockFieldReturn {
+export interface UseRatioLockFieldReturn<TNames extends string = string> {
   /** Field props for each managed field */
-  fields: Record<string, FieldProps>
+  fields: { [K in TNames]: FieldProps<K> }
   /** Current lock state */
   isLocked: boolean
   /** Lock the ratio */
